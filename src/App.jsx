@@ -31,7 +31,7 @@ export default function App() {
   );
 
   return (
-    <div>
+    <div className="bg-zinc-100 dark:bg-zinc-800">
       <Header />
       <ScoreBoard currentScore={currentScore} highScore={highScore} />
       <GameBoard orderArray={orderArray} onCardClick={onCardClick} />
