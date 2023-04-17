@@ -1,3 +1,5 @@
+import { useState, useRef, useCallback } from 'react';
+import classNames from 'classnames';
 import Card from './Card';
 
 const data = {
@@ -94,18 +96,40 @@ const data = {
 };
 
 function GameBoard({ orderArray, onCardClick }) {
+  const [isLoading, setIsLoading] = useState(true);
+  const counter = useRef(0);
+
+  const onImageLoad = useCallback(() => {
+    counter.current += 1;
+    if (counter.current >= Object.keys(data).length) {
+      setIsLoading(false);
+    }
+  }, [counter]);
+
   return (
-    <div className="grid grid-cols-2 gap-4 p-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8">
-      {orderArray.map((i) => (
-        <Card
-          onCardClick={onCardClick}
-          key={data[i].key}
-          index={data[i].key}
-          photographer={data[i].photographer}
-          src={data[i].src}
-        />
-      ))}
-    </div>
+    <>
+      <div
+        className={classNames(
+          { hidden: isLoading },
+          { block: !isLoading },
+          'grid grid-cols-2 gap-4 p-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-8'
+        )}
+      >
+        {orderArray.map((i) => (
+          <Card
+            onImageLoad={onImageLoad}
+            onCardClick={onCardClick}
+            key={data[i].key}
+            index={data[i].key}
+            photographer={data[i].photographer}
+            src={data[i].src}
+          />
+        ))}
+      </div>
+      <div className={classNames({ hidden: !isLoading }, { block: isLoading }, 'text-center')}>
+        <p>Loading images...</p>
+      </div>
+    </>
   );
 }
 
