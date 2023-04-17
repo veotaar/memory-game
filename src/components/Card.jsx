@@ -1,8 +1,12 @@
 import { BsCameraFill } from 'react-icons/bs';
 
-function Card({ photographer, src }) {
+function Card({ photographer, src, index, onCardClick }) {
   return (
-    <div className="cursor-pointer rounded-md border border-stone-300 bg-stone-100 p-2 drop-shadow-sm transition-all ease-out hover:scale-105 hover:drop-shadow-md active:scale-100 active:drop-shadow-sm">
+    <button
+      type="button"
+      onClick={() => onCardClick(index)}
+      className="cursor-pointer rounded-md border border-stone-300 bg-stone-100 p-2 drop-shadow-sm transition-all ease-out hover:scale-105 hover:drop-shadow-md active:scale-100 active:drop-shadow-sm"
+    >
       <div className="">
         <img className="rounded" src={src} alt={`Photograph by ${photographer}`} />
       </div>
@@ -12,7 +16,7 @@ function Card({ photographer, src }) {
         </div>
         <div>{photographer}</div>
       </div>
-    </div>
+    </button>
   );
 }
 
